@@ -12,7 +12,7 @@
 function main() {
 
 chrome.browserAction.setBadgeText({text:""});
- chrome.extension.sendMessage({'action':'Get Settings'},
+ chrome.runtime.sendMessage({'action':'Get Settings'},
       function(response) {
       	console.log(response);
       	document.getElementById('shortcut').value = response['shortcut'];
@@ -44,9 +44,9 @@ chrome.browserAction.setBadgeText({text:""});
   // });
 
 
-	 chrome.extension.sendMessage({'action':'Set Settings', 'key':'shortcut', 'payload':payload},
+	 chrome.runtime.sendMessage({'action':'Set Settings', 'key':'shortcut', 'payload':payload},
 	      function(response) {
-	      	  chrome.tabs.getSelected(null, function(tab) {
+	      	  chrome.tabs.query({active: true}, function(tab) {
             var code = 'window.location.reload();';
             chrome.tabs.executeScript(tab.id, {code: code});
           });
